@@ -232,7 +232,7 @@ $veryDarkBlue: hsl(200, 15%, 8%);
 .bold {
   font-family: NunitoSansBold;
 }
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 420px) {
   .detail-container {
     margin: 20px;
   }
