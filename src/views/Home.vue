@@ -1,18 +1,51 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div id="home">
+    <Header></Header>
+    <Main :countries="countries"></Main>
+    <router-view></router-view>
   </div>
 </template>
 
+<style lang="scss">
+@font-face {
+  font-family: NunitoSans;
+  src: url("../assets/NunitoSans.ttf");
+}
+@font-face {
+  font-family: NunitoSansBold;
+  src: url("../assets/NunitoSans-Bold.ttf");
+}
+$veryDarkBlue: hsl(200, 15%, 8%);
+$darkGray: hsl(0, 0%, 52%);
+$veryLightGray: hsl(0, 0%, 98%);
+$white: hsl(0, 0%, 100%);
+#app {
+  font-family: NunitoSans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $veryDarkBlue;
+}
+</style>
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import Header from "../components/Header";
+import Main from "../components/Main";
 export default {
-  name: "Home",
   components: {
-    HelloWorld
+    Header,
+    Main
+  },
+  data() {
+    return {
+      countries: []
+    };
+  },
+  mounted() {
+    fetch("https://restcountries.eu/rest/v2/all")
+      .then(res => res.json())
+      .then(jsonData => {
+        this.countries = jsonData;
+      })
+      .catch(err => console.log(err));
   }
 };
 </script>

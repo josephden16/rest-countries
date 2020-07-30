@@ -1,32 +1,45 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
 
 <style lang="scss">
+@font-face {
+  font-family: NunitoSans;
+  src: url("../src/assets/NunitoSans.ttf");
+}
+@font-face {
+  font-family: NunitoSansBold;
+  src: url("../src/assets/NunitoSans-Bold.ttf");
+}
+$veryDarkBlue: hsl(200, 15%, 8%);
+$darkGray: hsl(0, 0%, 52%);
+$veryLightGray: hsl(0, 0%, 98%);
+$white: hsl(0, 0%, 100%);
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: NunitoSans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  color: $veryDarkBlue;
 }
 </style>
+<script>
+export default {
+  data() {
+    return {
+      countries: []
+    };
+  },
+  mounted() {
+    fetch("https://restcountries.eu/rest/v2/all")
+      .then(res => res.json())
+      .then(jsonData => {
+        this.countries = jsonData;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
+</script>
