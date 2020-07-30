@@ -13,16 +13,53 @@
         <div class="country__data">
           <div class="country__data__head">{{ countryData.name }}</div>
           <div class="country__data__main">
-            <div class="country__data__main__layer1"></div>
-            <div class="country__data__main__layer2"></div>
+            <div class="country__data__main__layer1">
+              <ul>
+                <li>
+                  <span class="bold">Native Name:</span>
+                  {{ countryData.nativeName }}
+                </li>
+                <li>
+                  <span class="bold">Popultation:</span>
+                  {{ numberWithCommas(countryData.population) }}
+                </li>
+                <li>
+                  <span class="bold">Region:</span>
+                  {{ countryData.region }}
+                </li>
+                <li>
+                  <span class="bold">Sub Region:</span>
+                  {{ countryData.subregion }}
+                </li>
+                <li>
+                  <span class="bold">Capital:</span>
+                  {{ countryData.capital }}
+                </li>
+              </ul>
+            </div>
+            <div class="country__data__main__layer2">
+              <ul>
+                <li>
+                  <span class="bold">Top Level Domain:</span>
+                  <span>{{ " " + countryData.topLevelDomain.join(",") }}</span>
+                </li>
+                <li>
+                  <span class="bold">Currencies:</span>
+                  <span>{{" " + countryData.currencies[0].name }}</span>
+                </li>
+                <li>
+                  <span class="bold">Languages:</span>
+                  <span :key="index" v-for="(lang, index) in countryData.languages">
+                    <span v-if="index < countryData.languages.length -1">{{ " " + lang.name + ", "}}</span>
+                    <span v-else>{{ lang.name }}</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
+          <span class="bold">Border Countries:</span>
           <div class="country__data__border">
-            Border Countries:
-            <button
-              v-for="(border, index) in countryData.borders"
-              :key="index"
-              class="border-btn"
-            >
+            <button v-for="(border, index) in countryData.borders" :key="index" class="border-btn">
               <a :href="borderLink(index)">{{ border }}</a>
             </button>
           </div>
@@ -59,6 +96,11 @@ export default {
         }
       }
       return `/country/${name}`;
+    },
+    numberWithCommas(x) {
+      let parts = x.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parts.join(".");
     }
   },
   mounted() {
@@ -120,6 +162,34 @@ $veryDarkBlue: hsl(200, 15%, 8%);
       font-size: 1.6rem;
       font-weight: 700;
     }
+
+    &__main {
+      display: flex;
+      flex-flow: row nowrap;
+      &__layer1 {
+        ul {
+          list-style-type: none;
+          padding: 0;
+          margin-right: 52px;
+          li {
+            margin: 10px 0;
+          }
+        }
+      }
+      &__layer2 {
+        ul {
+          list-style-type: none;
+          padding: 0;
+          li {
+            margin: 10px 0;
+          }
+        }
+      }
+    }
+    &__border {
+      margin: 2px;
+      display: inline;
+    }
   }
 }
 #arrow {
@@ -143,7 +213,7 @@ $veryDarkBlue: hsl(200, 15%, 8%);
   font-family: NunitoSansLight;
 }
 .border-btn {
-  margin: 8px 12px;
+  margin: 8px 5px;
   width: 120px;
   padding: 8px 0;
   background-color: #fff;
@@ -157,6 +227,61 @@ $veryDarkBlue: hsl(200, 15%, 8%);
     text-decoration: none;
     color: $veryDarkBlue;
     padding: 8px 46px;
+  }
+}
+.bold {
+  font-family: NunitoSansBold;
+}
+@media screen and (max-width: 375px) {
+  .detail-container {
+    margin: 20px;
+  }
+  .country-detail {
+    grid-template-columns: 100%;
+    .country__flag {
+      img {
+        width: 95%;
+        height: 150px;
+      }
+    }
+    .country__data {
+      &__main {
+        display: flex;
+        flex-flow: column nowrap;
+        &__layer1 {
+          ul {
+            list-style-type: none;
+            padding: 0;
+            margin-right: 52px;
+            li {
+              margin: 10px 0;
+            }
+          }
+        }
+        &__layer2 {
+          ul {
+            list-style-type: none;
+            padding: 0;
+            li {
+              margin: 10px 0;
+            }
+          }
+        }
+      }
+      &__border {
+        display: flex;
+        flex-flow: row wrap;
+        margin: 0;
+        .border-btn {
+          width: 100px;
+          text-align: center;
+          margin: 8px 8px 8px 0;
+          a {
+            padding: 8px 37px;
+          }
+        }
+      }
+    }
   }
 }
 </style>

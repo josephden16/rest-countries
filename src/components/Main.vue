@@ -21,29 +21,21 @@
               v-for="(continent, index) in continents"
               :key="index"
               @mousedown="selectFilter(index)"
-            >
-              {{ continent }}
-            </li>
+            >{{ continent }}</li>
           </ul>
         </div>
       </div>
     </div>
     <div class="countries">
-      <div
-        class="country"
-        v-for="(country, index) in countriesArr"
-        :key="index"
-      >
+      <div class="country" v-for="(country, index) in countriesArr" :key="index">
         <div class="image-content">
-          <router-link :to="url(index)">
+          <router-link :to="url(country.name)">
             <img :src="country.flag" class="flag" :alt="country.name" />
           </router-link>
         </div>
         <div class="text-content">
           <p class="head">{{ country.name }}</p>
-          <p class="details">
-            Population: {{ numberWithCommas(country.population) }}
-          </p>
+          <p class="details">Population: {{ numberWithCommas(country.population) }}</p>
           <p class="details">Region: {{ country.region }}</p>
           <p class="details">Capital: {{ country.capital }}</p>
         </div>
@@ -99,22 +91,27 @@ export default {
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       return parts.join(".");
     },
-    url(index) {
-      let name = this.countries[index].name;
-      return "/country/" + name;
+    url(country) {
+      return "/country/" + country;
     }
   },
   computed: {
     countriesArr() {
       let arr = this.countries;
       if (this.searchQuery) {
-        return arr.filter(
+        arr = arr.filter(
           count => count.name.indexOf(this.capitalize(this.searchQuery)) > -1
         );
-      }
-
-      if (this.selectedFilter) {
-        return arr.filter(count => count.region === this.selectedFilter);
+        return arr;
+      } else if (this.selectedFilter) {
+        arr = arr.filter(count => count.region === this.selectedFilter);
+        return arr;
+      } else if (this.selectFilter && this.searchQuery) {
+        arr = arr.filter(
+          count =>
+            count.region === this.selectedFilter &&
+            count.name.indexOf(this.capitalize(this.searchQuery)) > -1
+        );
       }
       return arr;
     }
