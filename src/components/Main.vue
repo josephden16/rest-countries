@@ -12,7 +12,7 @@
       </div>
       <div class="filter">
         <div class="filter-default" @mousedown="openDropDown">
-          Filter by Region
+          {{ selectedFilterOption }}
           <i class="fas fa-angle-down angle-down-icon"></i>
         </div>
         <div class="filter-options" v-if="dropdownOpen">
@@ -48,9 +48,10 @@
 export default {
   data() {
     return {
-      continents: ["Africa", "Americas", "Asia", "Europe", "Oceania"],
+      continents: ["Filter By Region", "Africa", "Americas", "Asia", "Europe", "Oceania"],
       dropdownOpen: false,
       selectedFilter: "",
+      selectedFilterOption: "Filter By Region",
       searchQuery: ""
     };
   },
@@ -70,8 +71,15 @@ export default {
       }
     },
     selectFilter(index) {
-      this.selectedFilter = this.continents[index];
-      this.dropdownOpen = false;
+      if (index === 0) {
+        this.selectedFilter = "";
+        this.selectedFilterOption = this.continents[index];
+        this.dropdownOpen = false;
+      } else {
+        this.selectedFilter = this.continents[index];
+        this.dropdownOpen = false;
+        this.selectedFilterOption = this.continents[index];        
+      }
     },
     capitalize(value) {
       let textArray = value.split(" ");
