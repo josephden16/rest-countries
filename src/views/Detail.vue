@@ -48,7 +48,7 @@
                   <span>{{" " + countryData.currencies[0].name }}</span>
                 </li>
                 <li>
-                  <span class="bold">Languages:</span>
+                  <span class="bold">Languages: </span>
                   <span :key="index" v-for="(lang, index) in countryData.languages">
                     <span v-if="index < countryData.languages.length -1">{{ " " + lang.name + ", "}}</span>
                     <span v-else>{{ lang.name }}</span>
