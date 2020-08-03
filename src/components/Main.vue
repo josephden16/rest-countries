@@ -2,18 +2,20 @@
   <div class="main">
     <div class="search-filter">
       <div class="search">
-        <i class="fas fa-search search-icon"></i>
         <input
           type="text"
           v-model="searchQuery"
-          class="search"
+          class="search-bar"
           placeholder="Search for a country..."
         />
       </div>
+
       <div class="filter">
-        <div class="filter-default" @mousedown="openDropDown">
-          {{ selectedFilterOption }}
-          <i class="fas fa-angle-down angle-down-icon"></i>
+        <div class="filter-selected" @mousedown="openDropDown">
+          <span>{{ selectedFilterOption }}</span>
+          <span>
+            <i class="fas fa-angle-down angle-down-icon"></i>
+          </span>
         </div>
         <div class="filter-options" v-if="dropdownOpen">
           <ul>
@@ -28,27 +30,42 @@
     </div>
     <div class="countries">
       <div class="country" v-for="(country, index) in countriesArr" :key="index">
-        <div class="image-content">
+        <div class="country__img">
           <router-link :to="url(country.name)">
             <img :src="country.flag" class="flag" :alt="country.name" />
           </router-link>
         </div>
-        <div class="text-content">
+        <div class="country__text-content">
           <p class="head">{{ country.name }}</p>
-          <p class="details">Population: {{ numberWithCommas(country.population) }}</p>
-          <p class="details">Region: {{ country.region }}</p>
-          <p class="details">Capital: {{ country.capital }}</p>
+          <p class="details">
+            <span class="bold">Population:</span>
+            {{ numberWithCommas(country.population) }}
+          </p>
+          <p class="details">
+            <span class="bold">Region:</span>
+            {{ country.region }}
+          </p>
+          <p class="details">
+            <span class="bold">Capital:</span>
+            {{ country.capital }}
+          </p>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
-      continents: ["Filter By Region", "Africa", "Americas", "Asia", "Europe", "Oceania"],
+      continents: [
+        "Filter By Region",
+        "Africa",
+        "Americas",
+        "Asia",
+        "Europe",
+        "Oceania"
+      ],
       dropdownOpen: false,
       selectedFilter: "",
       selectedFilterOption: "Filter By Region",
@@ -78,7 +95,7 @@ export default {
       } else {
         this.selectedFilter = this.continents[index];
         this.dropdownOpen = false;
-        this.selectedFilterOption = this.continents[index];        
+        this.selectedFilterOption = this.continents[index];
       }
     },
     capitalize(value) {
@@ -135,48 +152,64 @@ $veryLightGray: hsl(0, 0%, 98%);
 }
 
 .search-filter {
-  margin: 60px 30px;
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+  flex-flow: column nowrap;
+  margin: 38px 18px;
   .search {
-    input[type="text"] {
-      width: 400px;
-      height: 37px;
-      padding: 8px 20px;
-      padding-left: 72px;
-      border: none;
-      font-size: 16px;
-      font-family: NunitoSans;
-      box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.078);
-      border-radius: 4px;
+    width: 90%;
+    &-bar {
+      border-radius: 6px;
+      padding: 18px 12px;
+      text-align: center;
+      width: 99%;
       outline: none;
+      box-shadow: -3px 2px 7px rgba(0, 0, 0, 0.078),
+        3px 2px 7px rgba(0, 0, 0, 0.078);
+      border: none;
+      font-size: 15px;
+      color: hsl(200, 15%, 8%);
+      font-family: NunitoSans;
+      background-image: url("../assets/icons8-search.svg");
+      background-repeat: no-repeat;
+      background-size: 22px;
+      background-position-y: 16px;
+      background-position-x: 12px;
     }
   }
+
   .filter {
-    font-weight: 300;
-    font-size: 14px;
-    .filter-default {
-      background-color: white;
-      border-radius: 5px;
+    margin-top: 14px;
+
+    .filter-selected {
+      background-color: #fff;
+      width: 140px;
+      padding: 15px 18px;
+      border-radius: 4px;
+      font-size: 15px;
       cursor: pointer;
-      padding: 16px 70px 16px 14px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
     }
 
     .filter-options {
-      background-color: white;
-      margin-top: 5px;
-      border-radius: 5px;
-      z-index: 9999;
+      background-color: #fff;
+      width: 177px;
+      margin-top: 12px;
+      border-radius: 4px;
+      font-size: 15px;
       position: fixed;
       ul {
         margin: 0;
         padding: 0;
         list-style-type: none;
         li {
+          padding: 6px 18px;
+          &:last-child {
+            padding-bottom: 12px;
+          }
+          transition: background 0.5s;
           cursor: pointer;
-          margin: 0;
-          padding: 8px 121px 8px 14px;
 
           &:hover {
             background-color: #eee;
@@ -189,115 +222,126 @@ $veryLightGray: hsl(0, 0%, 98%);
 
 .countries {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-  margin: 60px 30px;
-  gap: auto;
-}
-.country {
-  width: 280px;
-  height: 380px;
-  border-radius: 5px;
-  background-color: #fff;
-  margin: 0;
-  margin-bottom: 52px;
-  display: flex;
-  flex-flow: column nowrap;
+  grid-template-columns: 100%;
+  margin: 40px 50px;
+  gap: 28px;
+  .country {
+    background-color: #fff;
+    border-radius: 6px;
+    &__img {
+      .flag {
+        width: 100%;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+    }
+
+    &__text-content {
+      font-weight: 300;
+      margin: 18px 28px 38px 28px;
+      font-size: 15px;
+      .head {
+        font-weight: bold;
+        font-family: NunitoSansBold;
+        font-size: 19px;
+      }
+    }
+  }
 }
 
-.image-content {
-  border-radius: 5px;
-  width: 100%;
-  height: 200px;
-  position: relative;
+.angle-down-icon {
+  margin-left: 4px;
 }
 
-.flag {
-  width: 100%;
-  height: auto;
-  padding: 0;
-  margin: 0;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.head {
+.bold {
   font-family: NunitoSansBold;
 }
-.details:first-child {
-  margin-top: 24px;
-}
 
-.details {
-  font-size: 14px;
-}
+// media queries
 
-.text-content {
-  margin: 30px 22px;
-}
-.search-icon {
-  position: relative;
-  left: 50px;
-}
-.angle-down-icon {
-  position: relative;
-  left: 50px;
-}
-@media screen and (max-width: 375px) {
-  .angle-down-icon {
-    position: relative;
-    left: 20px;
+@media screen and (min-width: 500px) {
+  .countries {
+    .country {
+      width: 330px;
+      margin: auto;
+    }
   }
+}
+
+@media screen and (min-width: 720px) {
   .search-filter {
-    flex-flow: column nowrap;
-  }
-  .search-icon {
-    position: relative;
-    top: 0px;
-    left: 32px;
+    .search {
+      width: 65%;
+    }
   }
   .countries {
     display: grid;
-    grid-template-columns: 100%;
-    gap: 40px;
+    grid-template-columns: 50% 50%;
+    margin: 40px 0;
+    gap: 0;
+    .country {
+      margin: 20px auto;
+      width: 300px;
+    }
   }
+}
 
-  .country {
-    width: 280px;
-    height: 380px;
-    border-radius: 5px;
-    background-color: #fff;
-    margin: auto;
-    display: flex;
-    flex-flow: column nowrap;
+@media screen and (min-width: 995px) {
+  .search-filter {
+    .search {
+      width: 60%;
+      &-bar {
+        text-align: left;
+        padding-left: 80px;
+      }
+    }
+  }
+  .countries {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    margin: 40px 0;
+    gap: 0;
+    .country {
+      margin: 20px auto;
+      width: 280px;
+    }
+  }
+}
+@media screen and (min-width: 1280px) {
+  .main {
+    margin: 0 40px;
   }
   .search-filter {
-    margin: 60px 10px;
-    display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     justify-content: space-between;
+    margin: 38px 0;
     .search {
-      input[type="text"] {
-        width: auto;
-        height: 37px;
-        padding: 8px 20px;
-        padding-left: 52px;
+      width: 30%;
+      &-bar {
+        text-align: left;
+        padding-left: 80px;
       }
     }
     .filter {
-      width: 145px;
-      margin-top: 30px;
-      margin-left: 16px;
-      .filter-default {
-        padding: 16px 12px;
-        width: 140px;
+      position: relative;
+      top: -15px;
+      right: 30px;
+      .filter-selected {
+        padding: 18px 18px;
       }
-      .filter-options {
-        ul {
-          li {
-            padding: 8px 91px 8px 14px;
-          }
-        }
-      }
+    }
+  }
+  .countries {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin: 40px auto;
+    margin: 40px 0;
+    gap: 0;
+    .country {
+      margin: 20px  0;
+      margin-right: auto;
+      width: 280px;
+      // &:nth-of-type()
     }
   }
 }

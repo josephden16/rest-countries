@@ -3,7 +3,7 @@
     <Header></Header>
     <div class="detail-container">
       <div class="btn">
-        <i class="fas fa-long-arrow-alt-left fa-2x" id="arrow"></i>
+        <img src="../assets/long-arrow-left-.png" alt="back" id="arrow" />
         <button @click="back" class="backBtn">Back</button>
       </div>
       <div class="country-detail">
@@ -48,9 +48,13 @@
                   <span>{{" " + countryData.currencies[0].name }}</span>
                 </li>
                 <li>
-                  <span class="bold">Languages: </span>
+                  <span class="bold">Languages:</span>
                   <span :key="index" v-for="(lang, index) in countryData.languages">
-                    <span v-if="index < countryData.languages.length -1">{{ " " + lang.name + ", "}}</span>
+                    <span v-if="index < countryData.languages.length - 1">
+                      {{
+                      " " + lang.name + ", "
+                      }}
+                    </span>
                     <span v-else>{{ lang.name }}</span>
                   </span>
                 </li>
@@ -142,30 +146,28 @@ $veryDarkBlue: hsl(200, 15%, 8%);
   color: $veryDarkBlue;
 }
 .detail-container {
-  margin: 45px;
+  margin: 70px 25px;
+  margin-bottom: 30px;
 }
+
 .country-detail {
-  margin-top: 65px;
-  display: grid;
-  grid-template-columns: 50% 50%;
-  gap: 35px;
+  margin-top: 32px;
+  grid-template-columns: 100%;
   .country__flag {
     img {
-      width: 95%;
-      height: 400px;
+      width: 266px;
+      height: 170px;
     }
   }
-
   .country__data {
     &__head {
       font-family: NunitoSansBold;
-      font-size: 1.6rem;
-      font-weight: 700;
+      font-size: 22px;
+      margin-top: 18px;
     }
-
     &__main {
       display: flex;
-      flex-flow: row nowrap;
+      flex-flow: column nowrap;
       &__layer1 {
         ul {
           list-style-type: none;
@@ -187,14 +189,23 @@ $veryDarkBlue: hsl(200, 15%, 8%);
       }
     }
     &__border {
-      margin: 2px;
-      display: inline;
+      display: flex;
+      flex-flow: row wrap;
+      margin: 0;
+      .border-btn {
+        width: 100px;
+        text-align: center;
+        margin: 8px 8px 8px 0;
+        a {
+          padding: 8px 37px;
+        }
+      }
     }
   }
 }
 #arrow {
   position: relative;
-  left: 58px;
+  left: 50px;
   top: 7px;
   padding: 0;
   margin: 0;
@@ -211,6 +222,7 @@ $veryDarkBlue: hsl(200, 15%, 8%);
   border-radius: 4px;
   box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.068);
   font-family: NunitoSansLight;
+  margin-left: 4px;
 }
 .border-btn {
   margin: 8px 5px;
@@ -232,54 +244,95 @@ $veryDarkBlue: hsl(200, 15%, 8%);
 .bold {
   font-family: NunitoSansBold;
 }
-@media screen and (max-width: 420px) {
+
+@media screen and (min-width: 500px) {
   .detail-container {
-    margin: 20px;
+    margin: 70px 30px;
+    margin-bottom: 30px;
   }
   .country-detail {
-    grid-template-columns: 100%;
+    display: flex;
+    flex-flow: column nowrap;
     .country__flag {
       img {
-        width: 95%;
-        height: 150px;
+        width: 70%;
+        height: 220px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .detail-container {
+    margin: 70px 50px;
+    margin-bottom: 30px;
+  }
+  .country-detail {
+    display: flex;
+    flex-flow: column nowrap;
+    .country__flag {
+      img {
+        height: 70%;
+        width: 400px;
       }
     }
     .country__data {
       &__main {
         display: flex;
-        flex-flow: column nowrap;
-        &__layer1 {
-          ul {
-            list-style-type: none;
-            padding: 0;
-            margin-right: 52px;
-            li {
-              margin: 10px 0;
-            }
-          }
-        }
-        &__layer2 {
-          ul {
-            list-style-type: none;
-            padding: 0;
-            li {
-              margin: 10px 0;
-            }
-          }
-        }
+        flex-flow: row nowrap;
       }
-      &__border {
+    }
+  }
+}
+
+@media screen and (min-width: 995px) {
+  .detail-container {
+    margin: 70px 50px;
+    margin-bottom: 30px;
+  }
+  .country-detail {
+    display: flex;
+    flex-flow: column nowrap;
+    .country__flag {
+      img {
+        width: 60%;
+        height: 400px;
+        position: relative;
+      }
+    }
+    .country__data {
+      &__main {
         display: flex;
-        flex-flow: row wrap;
-        margin: 0;
-        .border-btn {
-          width: 100px;
-          text-align: center;
-          margin: 8px 8px 8px 0;
-          a {
-            padding: 8px 37px;
-          }
-        }
+        flex-flow: row nowrap;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .detail-container {
+    margin: 70px 50px;
+    margin-bottom: 30px;
+  }
+  .country-detail {
+    display: flex;
+    flex-flow: row nowrap;
+    .country__flag {
+      img {
+        width: 70%;
+        position: relative;
+      }
+    }
+    .country__data {
+      &__main {
+        display: flex;
+        flex-flow: row nowrap;
+      }
+      &__head {
+        font-family: NunitoSansBold;
+        font-size: 28px;
+        margin-top: 18px;
+        font-weight: 700;
       }
     }
   }
