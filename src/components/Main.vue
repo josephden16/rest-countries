@@ -131,7 +131,7 @@ export default {
       } else if (this.selectedFilter) {
         arr = arr.filter(count => count.region === this.selectedFilter);
         return arr;
-      } else if (this.selectFilter && this.searchQuery) {
+      } else if (this.selectedFilter && this.searchQuery) {
         arr = arr.filter(
           count =>
             count.region === this.selectedFilter &&

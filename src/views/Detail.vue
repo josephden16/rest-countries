@@ -64,7 +64,7 @@
           <span class="bold">Border Countries:</span>
           <div class="country__data__border">
             <button v-for="(border, index) in countryData.borders" :key="index" class="border-btn">
-              <a :href="borderLink(index)">{{ border }}</a>
+              <router-link :to="borderLink(index)">{{ border }}</router-link>
             </button>
           </div>
         </div>
